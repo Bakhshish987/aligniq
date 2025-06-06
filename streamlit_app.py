@@ -6,20 +6,21 @@ st.markdown("""
     div.stButton > button:first-child {
         display: block;
         margin: 0 auto;
-        background-color: #4CAF50;
-        color: white;
-        font-size: 18px;
-        padding: 10px 24px;
+        color: #ffffff;
+        background-color: #d33c3c;
         border: none;
         border-radius: 6px;
+        padding: 10px 24px;
+        font-size: 18px;
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
     div.stButton > button:first-child:hover {
-        background-color: #45a049;
-        transform: scale(1.03);
+        background-color: #b03030;
+        transform: scale(1.02);
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 import re
