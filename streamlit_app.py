@@ -1,5 +1,8 @@
 import streamlit as st
+st.set_page_config(page_title="AlignIQ - Resume JD Matcher", layout="wide")
+
 import re
+import datetime
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -7,8 +10,6 @@ import matplotlib.pyplot as plt
 import nltk
 import fitz  # PyMuPDF
 from sentence_transformers import SentenceTransformer, util
-
-st.set_page_config(page_title="AlignIQ - Resume JD Matcher", layout="wide")
 
 # Download stopwords
 nltk.download('stopwords')
@@ -23,7 +24,7 @@ def load_bert_model():
 with st.spinner("🔁 Loading BERT model..."):
     model = load_bert_model()
 
-# --- Text preprocessing ---
+# --- Preprocessing ---
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'[^a-z\s]', '', text)
@@ -44,21 +45,21 @@ def extract_text(file, filename):
     else:
         return ""
 
-# --- Streamlit UI ---
-
+# --- UI ---
 st.title("💼 AlignIQ: Resume & JD Match Analyzer")
-st.markdown("Match your resume with any job description using AI 🔍")
+st.markdown("Match your resume to any job description using AI 🔍")
+st.caption(f"🗓️ Today: {datetime.date.today().strftime('%B %d, %Y')}")
 
 col1, col2 = st.columns(2)
 
 with col1:
     resume_file = st.file_uploader("📤 Upload Your Resume (.txt or .pdf)", type=["txt", "pdf"])
 with col2:
-    jd_file = st.file_uploader("📤 Upload Job Description (.txt or .pdf)", type=["txt", "pdf"])
+    jd_text_input = st.text_area("📋 Paste the Job Description here", height=240)
 
-if resume_file and jd_file:
+if resume_file and jd_text_input.strip():
     resume_text = extract_text(resume_file, resume_file.name)
-    jd_text = extract_text(jd_file, jd_file.name)
+    jd_text = jd_text_input
 
     resume_clean = clean_text(resume_text)
     jd_clean = clean_text(jd_text)
@@ -80,42 +81,51 @@ if resume_file and jd_file:
     missing = [word for word in jd_keywords if word not in resume_words]
     keyword_match_pct = len(matched) / len(jd_keywords) * 100
 
-    # --- Results ---
-    st.markdown("## 📈 AI Match Scores")
+    st.markdown("---")
+    st.header("📈 AI Match Results")
+
+    # Scores
     col3, col4, col5 = st.columns(3)
-    col3.metric("TF-IDF Score", f"{tfidf_score:.2f}")
-    col4.metric("BERT Score", f"{bert_score:.2f}")
-    col5.metric("Keyword Match %", f"{keyword_match_pct:.0f}%")
+    col3.metric("🧮 TF-IDF Score", f"{tfidf_score:.2f}")
+    col4.metric("🧠 BERT Score", f"{bert_score:.2f}")
+    col5.metric("🔑 Keyword Match %", f"{keyword_match_pct:.0f}%")
 
-    st.markdown("## 📌 Keyword Insights")
-    st.success(f"**✔️ Matched Keywords ({len(matched)}):** {', '.join(matched)}")
-    st.error(f"**❌ Missing Keywords ({len(missing)}):** {', '.join(missing)}")
+    # Explanation
+    with st.expander("ℹ️ What Do These Scores Mean?"):
+        st.markdown("""
+        - **TF-IDF Score**: Measures how many overlapping words your resume shares with the job description. Higher = better keyword alignment.
+        - **BERT Score**: Captures deep semantic similarity. Higher = your resume actually *sounds like* it was written for this job.
+        - **Keyword Match %**: Out of the top 20 most important words in the JD, how many appear in your resume.
+        """)
 
-    # Keyword Bar Chart
-    st.markdown("### 📊 Match Breakdown")
+    # Keyword Breakdown
+    st.markdown("## 📌 Keyword Match Breakdown")
+    st.success(f"✔️ Matched Keywords ({len(matched)}): {', '.join(matched)}")
+    st.error(f"❌ Missing Keywords ({len(missing)}): {', '.join(missing)}")
+
+    # Chart
+    st.markdown("### 📊 Visual Breakdown")
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.bar(["Matched", "Missing"], [len(matched), len(missing)], color=["green", "red"])
-    ax.set_ylabel("Number of Keywords")
+    ax.set_ylabel("Keyword Count")
     ax.set_title("Resume vs JD Keyword Match")
     st.pyplot(fig)
 
-    # Preview Sections
+    # Preview
     with st.expander("🧾 View Resume Text"):
         st.text_area("Resume", value=resume_text, height=300)
-
     with st.expander("📋 View Job Description Text"):
         st.text_area("Job Description", value=jd_text, height=300)
 
-    # Resume Improvement Tips
+    # Suggestions
     st.markdown("## 🧠 Suggestions to Improve Your Resume")
     if bert_score < 0.6:
-        st.warning("👉 Try rewriting your bullet points to better match the job wording.")
+        st.warning("🧠 Try rewriting your bullet points to better match the JD’s tone and language.")
     if tfidf_score < 0.5:
-        st.warning("👉 Consider adding more technical terms from the job description.")
+        st.warning("📚 Consider using more relevant technical terms from the job posting.")
     if keyword_match_pct < 60:
-        st.info("✅ Add these missing keywords to improve alignment: " + ", ".join(missing))
+        st.info("🔍 Add these missing keywords to improve alignment: " + ", ".join(missing))
     if len(matched) == 0:
-        st.error("🚨 No matched keywords! Your resume needs major revision for this JD.")
+        st.error("🚨 No matched keywords found! Major revision required for this resume.")
 
-    st.success("🔍 You can now tweak your resume and re-upload for better results!")
-
+    st.success("✅ Tweak your resume, re-upload, and aim for scores above 0.6 for strong alignment!")
