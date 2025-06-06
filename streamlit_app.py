@@ -1,7 +1,6 @@
 import streamlit as st
 st.set_page_config(page_title="AlignIQ - Resume JD Matcher", layout="wide")
 
-# 💅 CSS: Center button across all devices
 st.markdown("""
     <style>
     div.stButton > button:first-child {
@@ -13,9 +12,15 @@ st.markdown("""
         padding: 10px 24px;
         border: none;
         border-radius: 6px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    div.stButton > button:first-child:hover {
+        background-color: #45a049;
+        transform: scale(1.03);
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 import re
 import datetime
