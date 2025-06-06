@@ -8,6 +8,8 @@ import nltk
 import fitz  # PyMuPDF
 from sentence_transformers import SentenceTransformer, util
 
+st.set_page_config(page_title="AlignIQ - Resume JD Matcher", layout="wide")
+
 # Download stopwords
 nltk.download('stopwords')
 from nltk.corpus import stopwords
@@ -43,7 +45,6 @@ def extract_text(file, filename):
         return ""
 
 # --- Streamlit UI ---
-st.set_page_config(page_title="AlignIQ - Resume JD Matcher", layout="wide")
 
 st.title("💼 AlignIQ: Resume & JD Match Analyzer")
 st.markdown("Match your resume with any job description using AI 🔍")
