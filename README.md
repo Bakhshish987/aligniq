@@ -1,8 +1,9 @@
 # 💼 AlignIQ — AI-Powered Resume & Job Description Matcher
 
+https://aligniq-v2.streamlit.app/
+
 **AlignIQ** is an intelligent, NLP-driven web app that analyzes how well your resume matches a specific job description. It combines keyword extraction, semantic similarity, and real-time visual feedback to help job seekers tailor their resumes for maximum impact.
 
-![AlignIQ Banner](https://imgur.com/your_banner_link_here.png) <!-- optional -->
 
 ---
 
