@@ -1,6 +1,22 @@
 import streamlit as st
 st.set_page_config(page_title="AlignIQ - Resume JD Matcher", layout="wide")
 
+# 💅 CSS: Center button across all devices
+st.markdown("""
+    <style>
+    div.stButton > button:first-child {
+        display: block;
+        margin: 0 auto;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 18px;
+        padding: 10px 24px;
+        border: none;
+        border-radius: 6px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 import re
 import datetime
 from collections import Counter
@@ -57,10 +73,8 @@ with col1:
 with col2:
     jd_text_input = st.text_area("📋 Paste the Job Description here", height=240)
 
-# --- Centered Button ---
-col_center = st.columns([1, 2, 1])[1]
-with col_center:
-    analyze = st.button("🔍 Analyze Resume")
+# --- Button ---
+analyze = st.button("🔍 Analyze Resume")
 
 # --- Analysis Logic ---
 if resume_file and jd_text_input.strip() and analyze:
@@ -135,5 +149,4 @@ if resume_file and jd_text_input.strip() and analyze:
         st.error("🚨 No matched keywords found! Major revision required for this resume.")
 
     st.success("✅ Tweak your resume, re-upload, and aim for scores above 0.6 for strong alignment!")
-
 
