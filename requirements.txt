@@ -3,3 +3,4 @@ scikit-learn
 nltk
 sentence-transformers
 torch
+numpy
