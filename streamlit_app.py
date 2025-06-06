@@ -69,6 +69,7 @@ def extract_text(file, filename):
 # --- UI ---
 st.title("💼 AlignIQ: Resume & JD Match Analyzer")
 st.markdown("Match your resume to any job description using AI 🔍")
+st.markdown("**👨‍💻 Built by Bakhshish Sethi**", unsafe_allow_html=True)
 st.caption(f"🗓️ Today: {datetime.date.today().strftime('%B %d, %Y')}")
 
 col1, col2 = st.columns(2)
