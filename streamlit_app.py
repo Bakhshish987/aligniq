@@ -1,25 +1,25 @@
 import streamlit as st
 st.set_page_config(page_title="AlignIQ - Resume JD Matcher", layout="wide")
-
 st.markdown("""
     <style>
     div.stButton > button:first-child {
         display: block;
         margin: 0 auto;
-        color: #ffffff;
-        background-color: #d33c3c;
-        border: none;
+        color: #d33c3c;
+        background-color: transparent;
+        border: 2px solid #d33c3c;
         border-radius: 6px;
         padding: 10px 24px;
         font-size: 18px;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
     div.stButton > button:first-child:hover {
-        background-color: #b03030;
-        transform: scale(1.02);
+        background-color: #d33c3c;
+        color: white;
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 
