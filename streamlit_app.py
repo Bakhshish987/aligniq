@@ -5,8 +5,8 @@ st.markdown("""
     div.stButton > button:first-child {
         display: block;
         margin: 0 auto;
-        color: #d33c3c;
-        background-color: transparent;
+        background-color: #d33c3c;
+        color: white;
         border: 2px solid #d33c3c;
         border-radius: 6px;
         padding: 10px 24px;
@@ -14,11 +14,12 @@ st.markdown("""
         transition: background-color 0.3s ease, color 0.3s ease;
     }
     div.stButton > button:first-child:hover {
-        background-color: #d33c3c;
-        color: white;
+        background-color: transparent;
+        color: #d33c3c;
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 
 
