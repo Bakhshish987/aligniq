@@ -4,3 +4,4 @@ nltk
 sentence-transformers
 torch
 numpy
+PyMuPDF
